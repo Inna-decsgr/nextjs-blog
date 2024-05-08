@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Blog
 
-## Getting Started
+#### 프로젝트 이름
+Blog
 
-First, run the development server:
+#### 사용한 라이브러리
+react-markdown, react-syntax-highlighter
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+#### 구현 사항
+* 카테고리별 게시물 필터
+* 제목으로 게시물 검색
+* 페이지네이션을 통해 게시물들을 한 페이지에 최대 5개만 보일 수 있도록 표시
+* 게시물 내용 중 코드문법은 syntax-highlighter로 강조
+* 현재 게시물의 이전 또는 다음 게시물로 이동
+* Darkmode로 테마 변경 가능
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 주요 내용
+* 파일에 있는 데이터 가져오기
+  * path.join을 이용해서 process.cwd로 현재 프로젝트 경로를 받아와서 'data' 파일 안에 posts.json 파일을 읽어온다.
+  * 파일을 utf 파일로 읽어온 다음 작성한 날짜를 기준으로 최신순으로 게시물을 가져온다.
+  * 모든 게시물 받아오기, filter 사용해서 featured가 true인 게시물 받아오기 등 함수로 만들어서 필요한 데이터 받아온다.
+* 카테고리별 필터 기능
+  * 만약 검색어(text)가 있다면 게시물 제목에 text가 포함된 게시물들만 filter하고, 검색을 하지 않은 상태에서 카테고리가 all posts라면 모든 게시물들을 보여주고 카테고리가 all posts가 아니라면 선택된(selected) 카테고리와 일치하는 게시물들만 filter해서 보여준다. 참고로, 기본 카테고리는 all posts로 되어 있다.
+  * 만약 검색어(text)가 있다면 카테고리를 null로 전달해서 카테고리가 아무것도 선택되지 못하게 하고 text가 있는 상태에서 카테고리를 클릭하면 text를 ''로 설정해서 비우고 선택된 카테고리에 속하는 포스트들만 보여주도록 했다.
+  * 게시물을 클릭하면 해당 게시물의 상세 페이지로 이동한다.
+  * 검색어가 있는 상태에서 게시물을 클릭해서 게시물 상세 페이지로 이동했다가 뒤로 버튼을 누르면 검색어와 검색 결과가 유지되도록 하기 위해 localStorage를 사용했다. 검색하게 되면 검색어와 검색 결과를 setText와 setSearchResult로 업데이트하고 setItem으로 localStorage에 저장한다. 이전 페이지의 상태를 로컬 스토리지에 저장해두었기 때문에 뒤로 가기 버튼을 눌러서 popstate 이벤트가 발생하여도 이전 상태가 복원되어 이전 검색어와 검색 결과가 유지되도록 했다.
+* Pagination 기능 구현
+  * FilterablePosts 컴포넌트에서 현재 페이지(1)와 페이지당 컨텐츠 수(5)를 상태로 관리하고 현재 페이지에 표시될 컨텐츠의 인덱스를 계산한다.
+  * currentPage와 contentsPerPage를 곱해서 현재 페이지의 마지막 컨텐츠 인덱스를 계산한 다음 계산한 결과에서 contentsPerPage를 빼서 현재 페이지의 첫번째 컨텐츠 인덱스를 계산한다. 두 계산 결과를 이용해서 현재 페이지에 표시될 컨텐츠를 정하는데 일단 전체 게시물 배열을 slice(0)으로 복사한 다음 reverse() 역순으로 정렬해서 가장 최신의 컨텐츠가 보여지도록 했다. 그 다음 slice(첫번째 컨텐츠 인덱스, 마지막 컨텐츠 인덱스)로 현재 페이지에 해당하는 범위의 컨텐츠를 선택할 수 있다.
+  * PostGroup 컴포넌트에는 범위에 맞는 컨텐츠를 전달하고 Pagination 컴포넌트에서 현재 페이지 번호, 전체 컨텐츠 수, 페이지 당 보여질 컨텐츠의 수, 페이지 변경 함수를 전달한다.
+  * PostGroup 컴포넌트에서는 전달받은 게시물들을 보여준다. Pagination 컴포넌트에서는 전체 컨텐츠 수를 페이지 당 보여질 컨텐츠 수로 나누어 페이지 수를 계산하고, 페이지 번호 배열에 페이지 수만큼의 숫자를 추가한다. 페이지 번호가 변경될 때마다 전달받은 페이지 변경 함수에 의해서 선택된 페이지의 범위에 해당하는 게시물들이 보여질 수 있도록 구현했다.
+* 블로그 게시물 상세 페이지
+  * 게시물 상세 페이지는 해당 게시물의 path를 경로로 가진다. path를 params로 받아온 후에 params와 일치하는 path를 가진 게시물의 데이터를 읽어온다.
+  * 마크다운뷰어 라이브러리를 사용해서 읽어온 데이터를 표기한다.
+  * 데이터 중에서도 자바스크립트 코드문법은 syntax-highlighter 라이브러리를 사용해서 강조한다.
+* 이전, 다음 포스트 보여주기
+  * indexOf를 이용해서 현재 포스트가 몇번째 index 인지 확인한다.
+  * index가 0이 아니라면 해당 포스트의 이전 포스트가 무조건 존재하기 때문에 이전 포스트를 추출해서 prev에 저장하고 반대로 index가 배열에서 -1한 것보다 작다면 해당 포스트의 다음 포스트가 무조건 존재하기 때문에 다음 포스트를 추출해서 next에 저장한다.
+  * prev와 next를 AdjacentPostCard 컴포넌트에 전달해서 이전, 다음 포스트가 보여준다.
+* DarkMode
+  * tailwind의 다크모드를 사용해서 구현했다.
+  * 다크모드 버튼이 클릭되면 !darkMode로 인해서 모드가 false -> true로 변경되고 dark 클래스가 추가된다. localstorage에도 THEME.DARK를 저장해서 페이지를 초기화하거나 다시 마운트해도 테마가 유지되도록 한다.
+* SEO 최적화
+  * layout에서 template을 설정해주고 generateMetadata 함수에서 slug에 해당하는 post의 title과 description 데이터를 읽어와서 반환한다.
+  * nextjs가 자동으로 metadata 정보를 받아와서 페이지 설정을 해준다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 문제 해결
+* 페이지 번호가 2번일 때 다른 카테고리를 누르는 경우에 만약 해당 카테고리에 속하는 포스트들이 5개 미만이어서 2번 페이지가 존재하지 않아서 2번 페이지에는 아무것도 보여지지 않았다
+  * 카테고리 클릭 함수에 setCurrentPage(1)를 추가해서 페이지 번호를 1로 초기화 시켜줬더니 카테고리 변경해도 무조건 카테고리의 첫번째 페이지를 보여주게 되었다.
+* 검색창에 검색어 입력 시 매 철자마다 데이터를 불러와서 검색 결과가 깜빡 깜빡 거렸다.
+  * 그냥 text를 사용하지 않고 text를 debounce한 debouncedText를 사용해서 입력이 끝난 후 일정 시간 지난 뒤의 최종 단어를 검색어로 지정했다. useDebounce hook에 text를 전달하면 hook에서 value로 받는다. 전달받은 delay 시간 또는 기본으로 설정된 시간 동안에 setDebounced를 사용해서 value를 debounced로 설정한다. 이때 지정된 시간이 지나기전에 또 새로운 value를 전달받아서 debounced가 변경이 되면 이전에 value 값은 clearTimeout으로 인해 초기화된다. 결국엔 전달받은 delay 시간 동안에 일어난 변경 중에 마지막 변경 사항만 debounced에 최종적으로 저장된다. debouncedText에 맞는 게시물들을 불러왔더니 검색어 타이핑이 다 끝나고 나서 데이터를 불러올 수 있었고 따라서 과부하도 오지 않았으며 깜빡거리는 현상도 없어졌다.
+* 성능 개선을 위해 build를 해봤더니 /posts에서 prerender error가 발생해서 에러 메세지를 살펴보니 localstorage를 정의할 수 없다(undefined)고 나왔다.
+  * 검색을 해봤더니 서버 사이드 렌더링(SSR) 문제로 서버 사이드 렌더링 동안에는 localstorage를 사용할 수 없기 때문에 localstorage가 정의되지 않아서 코드에 오류가 발생한것이다. localStorage를 사용하는 부분은 모두 useEffect로 감싸서 초기 서버 빌드 시에 useEffect의 내부 코드는 실행되지 않도록 수정했더니 해결됐다. 또한 useState로 searchResult의 초기값을 localStorage에서 값을 읽어와서 설정하고 싶었는데 이 또한 SSR 문제가 발생했다. 이 문제를 해결하기 위해서는 useEffect가 아닌 다른 방법을 사용해봤다. readSearchResult라는 함수를 만들었는데 이 함수는 만약에 윈도우 객체가 undefined이 아니라면 즉, 윈도우 객체가 정의되어 있다면 localStorage 값을 받아온 다음 JSON 형식으로 파싱하여 반환하고 그렇지 않으면 null을 반환한다. window !== 'undefined'라는 조건을 걸어주면 페이지가 client에 마운트될 때까지 기다렸다가 localstorage에 접근한다. localstorage를 접근하기 전에 localstorage가 정의되었기 때문에 결과적으로는 prerender error를 해결할 수 있었다.
+* build된 결과를 확인했더니 post에 해당하는 모든 페이지가 SSR이 되고 있었다. 모든 페이지를 SSR 하지 않고 대표 포스트 페이지는 미리 만들어두고 싶었다.
+  *  대표 게시물들의 정보를 사용하여 페이지에 필요한 매개 변수를 생성하는 generateStaticParams 함수를 만들었다. getFeaturedPosts 함수를 사용해 대표 게시물들을 가져와서 매핑한 다음 post의 path 속성을 slug에 할당해서 해당 게시물의 링크 정보를 생성하고 반환한다. 이 함수를 사용해서 미리 페이지를 생성하고, 생성된 페이지에는 해당 게시물들의 정보가 포함되도록 할 수 있었다. 이를 통해 성능을 향상시키고 사용자 경험을 개선할 수 있었다.
+* 필요 이상으로 호출되는 함수가 없도록 한번 렌더링 되는 사이클에 한해서는 cache된 값을 사용하도록 구현하고 싶었다.
+  * 여러 컴포넌트에서 호출되는 getAllPosts 함수를 표현식으로 만들고 react에서 제공해주는 cache를 사용해서 함수를 정의했다. 이렇게 해주면 함수를 호출할 때마다 데이터베이스에서 데이터를 읽어오는 것이 아니라 한번 받아와서 cache된 값을 사용할 수 있다. 정적인 사이트라서 큰 문제는 없겠지만 SSR하는 경우에는 cache를 사용하는게 성능 향상, 페이지 로딩 속도에 크게 영향을 줄 수 있기 때문에 해두었다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### 배포 링크 📌
+https://nextjs-blog-4nt3.vercel.app/
