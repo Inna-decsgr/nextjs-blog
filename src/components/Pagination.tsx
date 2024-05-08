@@ -10,7 +10,7 @@ interface IPaginationProps {
   contentsPerPage: number;
 }
 
-export default function Pagination({
+export default function FilterablePosts({
   currentPage,
   totalContents,
   paginate,
