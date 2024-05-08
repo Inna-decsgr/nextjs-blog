@@ -1,0 +1,85 @@
+[
+  {
+    "title": "성능 보장 렌더링 순서",
+    "description": "자바스크립트 렌더링 순서: 화면에 내용을 그리기까지의 과정",
+    "date": "2023-03-04",
+    "category": "javascript",
+    "path": "rendering",
+    "featured": false
+  },
+  {
+    "title": "자바스크립트 비동기",
+    "description": "자바스크립트 비동기의 이해",
+    "date": "2023-03-07",
+    "category": "javascript",
+    "path": "asynchronous",
+    "featured": true
+  },
+  {
+    "title": "이벤트 루프(Event Loop) 중요한 개념",
+    "description": "이벤트 루프를 이해하기 위한 전반적인 개념 정리",
+    "date": "2023-03-14",
+    "category": "javascript",
+    "path": "event-loop",
+    "featured": true
+  },
+  {
+    "title": "쓰레기 수집과 렉시컬 환경",
+    "description": "자바스크립트의 메모리 관리: 렉시컬 환경과 쓰레기 수집",
+    "date": "2023-04-10",
+    "category": "javascript",
+    "path": "GarbageCollection",
+    "featured": true
+  },
+  {
+    "title": "클로저 Closure",
+    "description": "함수가 외부 변수에 접근할 수 있는 기능인 클로저에 대해 알아보자",
+    "date": "2023-04-12",
+    "category": "javascript",
+    "path": "closure",
+    "featured": true
+  },
+  {
+    "title": "Capturing과 Bubbling에 대해 알아보자",
+    "description": "Event Capturing과 Bubbling의 이해",
+    "date": "2023-04-05",
+    "category": "javascript",
+    "path": "capturing-bubbling",
+    "featured": true
+  },
+  {
+    "title": "호이스팅(Hoisting)과 변수",
+    "description": "JavaScript의 호이스팅: 코드 실행 전에 일어나는 비밀",
+    "date": "2023-04-21",
+    "category": "javascript",
+    "path": "hoisting",
+    "featured": false
+  },
+  {
+    "title": "리액트 연습",
+    "description": "리액트 공식문서를 참고하여 정확한 사용법들을 정리해보자",
+    "date": "2023-06-20",
+    "category": "react",
+    "path": "react-practices",
+    "featured": false
+  },
+  {
+    "title": "리액트 개념 정리",
+    "description": "사용자 인터페이스를 만들기 위한 자바스크립트 라이브러리인 리액트에 대해서 알아보자",
+    "date": "2023-07-03",
+    "category": "react",
+    "path": "react-basic",
+    "featured": true
+  },
+  
+  {
+    "title": "리액트 18버전!",
+    "description": "리액트 18에 추가된 사항들 정리",
+    "date": "2023-08-05",
+    "category": "react",
+    "path": "react18-walkthrough",
+    "featured": false
+  }
+]
+
+

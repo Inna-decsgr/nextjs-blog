@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html,
+body {
+  height: 100vh;
+  @apply bg-gray-50 dark:bg-slate-800
+}
+
+body {
+  -ms-overflow-style: none;
+}
+
+.prose :where(h2, h3, code, strong, p, a):not(:where([class~="not-prose"],[class~="not-prose"] *)){
+  @apply dark:text-white;
+}
+
+.prose :where(ol > li):not(:where([class~="not-prose"],[class~="not-prose"] *))::marker {
+    @apply dark:text-white;
+}
