@@ -25,7 +25,7 @@ export default async function PostPage({ params: { slug } }: Props) {
     <article className='w-full'>
       <PostContent post={post} />
       <h3 className='text-lg font-bold mt-28 px-12'>다른 포스트 보러가기</h3>
-      <section className='flex p-16'>
+      <section className='flex flex-col gap-28 md:flex-row p-16'>
         {prev && <AdjacentPostCard post={prev} type='prev' />}
         {next && <AdjacentPostCard post={next} type='next' />}
       </section>

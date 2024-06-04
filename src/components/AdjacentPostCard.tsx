@@ -11,7 +11,7 @@ type Props = {
 export default function AdjacentPostCard({post: {path, title, description}, type}: Props) {
   return (
     <Link href={`/posts/${path}`} className='relative w-full '>
-      <div className='group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex justify-around items-center px-8'>
+      <div className='group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex justify-around items-center md:px-8'>
         {type === 'prev' && <MdOutlineArrowBackIosNew />}
         <div className='w-full text-center mx-8 overflow-hidden'>
           <h3 className='text-lg truncate font-bold group-hover:text-blue-600'>{title}</h3>
