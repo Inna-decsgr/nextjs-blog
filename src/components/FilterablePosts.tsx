@@ -43,7 +43,7 @@ export default function FilterablePosts({ posts, categories, text, handleText}: 
 
   return (
     <>
-      <section className='w-full flex'>
+      <section className='w-full flex-row md:flex'>
         <Categories
           categories={[ALL_POSTS, ...categories]}
           selected={text ? null : selected}

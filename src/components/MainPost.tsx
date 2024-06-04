@@ -73,9 +73,9 @@ export default function MainPost({posts, categories}: Props) {
 
   return (
     <section>
-      <form className='py-8 ml-36' onSubmit={handleSubmit}>
+      <form className='py-4 ml-0 md:ml-36 md:py-8' onSubmit={handleSubmit}>
         <input
-          className='w-96 p-2 outline-none border-none dark:bg-gray-700'
+          className='p-2 w-72 md:w-96 outline-none border-none dark:bg-gray-700'
           type="text"
           value={text}
           placeholder='검색어를 입력하세요.'
